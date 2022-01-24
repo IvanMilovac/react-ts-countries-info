@@ -43,7 +43,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
 const queryClient = new QueryClient();
 
 export default function DarkThemeWithCustomPalette() {
-  const [theme, setTheme] = useState<PaletteMode>("light");
+  const [theme, setTheme] = useState<PaletteMode>("dark");
   const darkModeTheme = createTheme(getDesignTokens(theme));
   return (
     <CountryContextProvider>

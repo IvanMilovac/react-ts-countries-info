@@ -23,15 +23,30 @@ const MainContent = ({ countries }: IMainContentProps) => {
                 <Typography variant="h6" sx={{ mb: "0.5rem" }}>
                   {country?.name}
                 </Typography>
-                <Typography sx={{ mb: "0.25rem" }}>
-                  Population: {country?.population?.toLocaleString()}
-                </Typography>
-                <Typography sx={{ mb: "0.5rem" }}>
-                  Region: {country?.region}
-                </Typography>
-                <Typography sx={{ mb: "0.5rem" }}>
-                  Capital: {country?.capital}
-                </Typography>
+                <Box sx={{ marginBottom: "0.25rem" }}>
+                  <Typography
+                    sx={{ fontWeight: "600", display: "inline-block" }}
+                  >
+                    Population:
+                  </Typography>{" "}
+                  {country?.population?.toLocaleString()}
+                </Box>
+                <Box sx={{ mb: "0.5rem" }}>
+                  <Typography
+                    sx={{ fontWeight: "600", display: "inline-block" }}
+                  >
+                    Region:
+                  </Typography>{" "}
+                  {country?.region}
+                </Box>
+                <Box sx={{ mb: "0.5rem" }}>
+                  <Typography
+                    sx={{ fontWeight: "600", display: "inline-block" }}
+                  >
+                    Capital:
+                  </Typography>{" "}
+                  {country?.capital}
+                </Box>
               </Box>
             </CardContent>
           </Card>

@@ -1,9 +1,9 @@
+import { ChangeEvent, FC } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuItem from "@mui/material/MenuItem";
-import { ChangeEvent, useState } from "react";
 
 const continets = [
   {
@@ -24,16 +24,12 @@ const continets = [
   },
 ];
 
-interface countryData {
-  country: string;
-  region: string;
+interface HeaderProps {
+  handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  headerData: { country: string; region: string };
 }
 
-const MainHeader = () => {
-  const [data, setData] = useState<countryData>({ country: "", region: "" });
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
-  };
+const MainHeader: FC<HeaderProps> = ({ handleChange, headerData }) => {
   return (
     <Box
       sx={{
@@ -58,7 +54,7 @@ const MainHeader = () => {
           ),
         }}
         onChange={handleChange}
-        value={data.country}
+        value={headerData.country}
         sx={{ width: "350px", maxWidth: "100%", bgcolor: "element.main" }}
       />
       <TextField
@@ -71,7 +67,7 @@ const MainHeader = () => {
           bgcolor: "element.main",
         }}
         onChange={handleChange}
-        value={data.region}
+        value={headerData.region}
       >
         {continets.map((option) => (
           <MenuItem
