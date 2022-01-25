@@ -1,10 +1,12 @@
 import React, { createContext, useReducer, ReactNode } from "react";
 
 type AppState = typeof initialState;
-type Action = {
-  type: "SET_COUNTRIES";
-  payload: Country[];
-};
+type Action =
+  | {
+      type: "SET_COUNTRIES";
+      payload: Country[];
+    }
+  | { type: "SET_CHOOSEN_COUNTRY"; payload: Country };
 
 interface IProviderProps {
   children: ReactNode;
@@ -12,12 +14,15 @@ interface IProviderProps {
 
 const initialState = {
   countries: [] as Country[],
+  choosenCountry: {} as Country,
 };
 
 const reducer = (state: AppState, action: Action) => {
   switch (action.type) {
     case "SET_COUNTRIES":
-      return { countries: [...action.payload] };
+      return { ...state, countries: [...action.payload] };
+    case "SET_CHOOSEN_COUNTRY":
+      return { ...state, choosenCountry: action.payload };
     default:
       return state;
   }

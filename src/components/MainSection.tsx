@@ -1,10 +1,12 @@
 import Box from "@mui/material/Box";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, FC } from "react";
 import { CountryContext } from "../context/CountryContext";
 import { ChangeEvent, useState } from "react";
 
 import MainHeader from "./MainHeader";
 import MainContent from "./MainContent";
+import CountryDetails from "./CountryDetails";
+import { TailSpin } from "react-loader-spinner";
 
 interface countryData {
   country: string;
@@ -12,18 +14,20 @@ interface countryData {
 }
 
 const MainSection = () => {
-  const [headerData, setHeaderData] = useState<countryData>({
+  const { state, dispatch } = useContext(CountryContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [allData, setAllData] = useState([] as Country[]);
+  const [filteredData, setFilteredData] = useState([] as Country[]);
+  const [filter, setFilter] = useState<countryData>({
     country: "",
     region: "",
   });
-  const { state, dispatch } = useContext(CountryContext);
-  const { countries } = state;
-  const [data, setData] = useState([] as Country[]);
 
   const fetchData = async () => {
     const result = await (
       await fetch("https://restcountries.com/v2/all")
     ).json();
+    console.log(result[0]);
     return result?.map((item: Country) => {
       const {
         name,
@@ -34,7 +38,7 @@ const MainSection = () => {
         capital,
         flags,
         borders,
-        alpha3code,
+        alpha3Code,
         languages,
         currencies,
         topLevelDomain,
@@ -47,7 +51,7 @@ const MainSection = () => {
         capital,
         flags,
         borders,
-        alpha3code,
+        alpha3Code,
         languages,
         currencies,
         topLevelDomain,
@@ -57,31 +61,54 @@ const MainSection = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchData()
-      .then((data) => setData(data))
+      .then((data) => {
+        setAllData(data);
+        setFilteredData(data);
+        dispatch({ type: "SET_COUNTRIES", payload: data });
+        setIsLoading(false);
+      })
       .catch((err) => console.log(err));
-    dispatch({ type: "SET_COUNTRIES", payload: data });
   }, []);
 
   useEffect(() => {
-    filterData();
-  }, [headerData?.country, headerData?.region]);
+    if (!filter?.country && !filter?.region) return setFilteredData(allData);
+    let result = allData;
+    if (!!filter?.country)
+      result = result?.filter((item) =>
+        item?.name?.toLowerCase()?.includes(filter?.country?.toLowerCase())
+      );
+    if (!!filter?.region)
+      result = result?.filter(
+        (item) => item?.region.toLowerCase() === filter?.region.toLowerCase()
+      );
+    setFilteredData(result);
+  }, [filter?.country, filter?.region]);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setHeaderData((prevState) => ({
+    setFilter((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const filterData = () => {
-    if (headerData?.country?.toLowerCase().length > 0) {
-      const result = countries?.filter((item) =>
-        item?.name?.toLowerCase().includes(headerData?.country?.toLowerCase())
-      );
-      setData(result);
-    }
-  };
+  if (isLoading)
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "92.75vh",
+          bgcolor: "background.default",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          pt: "1rem",
+        }}
+      >
+        <TailSpin width="100" height="100" />;
+      </Box>
+    );
 
   return (
     <Box
@@ -94,9 +121,21 @@ const MainSection = () => {
         justifyContent: "center",
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <MainHeader handleChange={handleChange} headerData={headerData} />
-        <MainContent countries={data} />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+        }}
+      >
+        {!!Object.keys(state?.choosenCountry).length ? (
+          <CountryDetails />
+        ) : (
+          <>
+            <MainHeader handleChange={handleChange} filterData={filter} />
+            <MainContent countries={filteredData} />
+          </>
+        )}
       </Box>
     </Box>
   );

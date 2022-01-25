@@ -5,14 +5,18 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuItem from "@mui/material/MenuItem";
 
-const continets = [
+const continents = [
+  {
+    value: "",
+    label: "All",
+  },
   {
     value: "africa",
     label: "Africa",
   },
   {
-    value: "america",
-    label: "America",
+    value: "americas",
+    label: "Americas",
   },
   {
     value: "asia",
@@ -26,10 +30,10 @@ const continets = [
 
 interface HeaderProps {
   handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  headerData: { country: string; region: string };
+  filterData: { country: string; region: string };
 }
 
-const MainHeader: FC<HeaderProps> = ({ handleChange, headerData }) => {
+const MainHeader: FC<HeaderProps> = ({ handleChange, filterData }) => {
   return (
     <Box
       sx={{
@@ -40,12 +44,14 @@ const MainHeader: FC<HeaderProps> = ({ handleChange, headerData }) => {
         flexWrap: "wrap",
         gap: "1rem",
         width: "100%",
+        paddingBlock: "1rem 2rem",
       }}
     >
       <TextField
         id="search-countries"
         name="country"
         placeholder="Search for a country..."
+        autoComplete="off"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -54,26 +60,29 @@ const MainHeader: FC<HeaderProps> = ({ handleChange, headerData }) => {
           ),
         }}
         onChange={handleChange}
-        value={headerData.country}
+        value={filterData.country}
         sx={{ width: "350px", maxWidth: "100%", bgcolor: "element.main" }}
       />
       <TextField
-        id="outlined-select-currency"
-        name="region"
+        id="region-select"
         select
         label="Filter by region"
+        name="region"
         sx={{
-          width: "300px",
+          width: "350px",
           bgcolor: "element.main",
         }}
+        value={filterData?.region}
         onChange={handleChange}
-        value={headerData.region}
       >
-        {continets.map((option) => (
+        {continents?.map((option) => (
           <MenuItem
             key={option.value}
             value={option.value}
-            sx={{ bgcolor: "element.main" }}
+            sx={{
+              padding: "1rem !important",
+              display: "block !important",
+            }}
           >
             {option.label}
           </MenuItem>

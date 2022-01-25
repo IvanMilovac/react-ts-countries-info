@@ -7,7 +7,7 @@ interface Country {
   capital: string;
   flags: { svg: string; png: string };
   borders: string[];
-  alpha3code: string;
+  alpha3Code: string;
   languages: { name: string }[];
   currencies: { name: string; code: string; symbol: string }[];
   topLevelDomain: string[];

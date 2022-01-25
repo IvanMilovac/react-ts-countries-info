@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 import Navigation from "./components/Navigation";
 import MainSection from "./components/MainSection";
@@ -14,7 +13,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
       ? {
           //light bg
           background: {
-            default: "hsl(0, 0%, 98%)",
+            default: "hsl(0, 0%, 96%)",
           },
           //light mode element
           element: {
@@ -38,9 +37,18 @@ const getDesignTokens = (mode: PaletteMode) => ({
           text: { primary: "hsl(0, 0%, 100%)" },
         }),
   },
+  typography: {
+    h3: {
+      fontSize: "1.35rem",
+      "@media (max-width:900px)": {
+        fontSize: "1.2rem",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "0.9rem",
+      },
+    },
+  },
 });
-
-const queryClient = new QueryClient();
 
 export default function DarkThemeWithCustomPalette() {
   const [theme, setTheme] = useState<PaletteMode>("dark");
@@ -48,10 +56,8 @@ export default function DarkThemeWithCustomPalette() {
   return (
     <CountryContextProvider>
       <ThemeProvider theme={darkModeTheme}>
-        <QueryClientProvider client={queryClient}>
-          <Navigation setTheme={setTheme} />
-          <MainSection />
-        </QueryClientProvider>
+        <Navigation setTheme={setTheme} />
+        <MainSection />
       </ThemeProvider>
     </CountryContextProvider>
   );

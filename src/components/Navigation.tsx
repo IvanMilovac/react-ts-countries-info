@@ -29,7 +29,14 @@ const Navigation: FC<INavigationProps> = ({ setTheme }) => {
         elevation={0}
       >
         <Typography
-          sx={{ fontSize: "1.25rem", fontWeight: "600", letterSpacing: "1px" }}
+          variant="h3"
+          sx={{
+            fontWeight: "600",
+            letterSpacing: "1px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           Where in the world?
         </Typography>
@@ -44,7 +51,7 @@ const Navigation: FC<INavigationProps> = ({ setTheme }) => {
             setTheme((prev) => (prev === "light" ? "dark" : "light"))
           }
         >
-          <Typography sx={{ fontSize: "1.125rem" }}>
+          <Typography variant="h3">
             {theme.palette.mode === "light" ? "Dark" : "Light"} mode{" "}
           </Typography>
           {theme.palette.mode === "light" ? (
