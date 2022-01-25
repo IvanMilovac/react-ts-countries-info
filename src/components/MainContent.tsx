@@ -14,17 +14,19 @@ interface IMainContentProps {
 
 const MainContent: FC<IMainContentProps> = ({ countries }) => {
   const [visible, setVisible] = useState(12);
-  const { state, dispatch } = useContext(CountryContext);
+  const { dispatch } = useContext(CountryContext);
 
   const handleLoadMore = () => {
     if (visible < countries?.length) setVisible((prev) => prev + 12);
   };
 
-  console.log(state);
-
   return (
     <>
-      <Grid container spacing={3} sx={{ paddingBlock: "1.5rem" }}>
+      <Grid
+        container
+        spacing={3}
+        sx={{ paddingBlock: "1.5rem", maxWidth: "1440px", margin: "0 auto" }}
+      >
         {!!countries?.length ? (
           countries?.slice(0, visible)?.map((country) => (
             <Grid
@@ -40,11 +42,20 @@ const MainContent: FC<IMainContentProps> = ({ countries }) => {
             >
               <Card elevation={0}>
                 <CardContent
-                  sx={{ p: "0", paddingBottom: 0, bgcolor: "element.main" }}
+                  sx={{
+                    p: "0",
+                    paddingBottom: 0,
+                    bgcolor: "element.main",
+                    cursor: "pointer",
+                  }}
                 >
                   <CardMedia
                     image={country?.flags?.svg}
-                    sx={{ height: "150px" }}
+                    sx={{
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "250px",
+                    }}
                   />
                   <Box sx={{ p: "1rem" }}>
                     <Typography variant="h6" sx={{ mb: "0.5rem" }}>
@@ -93,9 +104,11 @@ const MainContent: FC<IMainContentProps> = ({ countries }) => {
         )}
       </Grid>
       {countries?.length > visible && (
-        <Button variant="contained" onClick={handleLoadMore} color="primary">
-          Load more
-        </Button>
+        <Grid item sx={{ maxWidth: "1440px", margin: "0 auto" }}>
+          <Button variant="contained" onClick={handleLoadMore} color="primary">
+            Load more
+          </Button>
+        </Grid>
       )}
     </>
   );

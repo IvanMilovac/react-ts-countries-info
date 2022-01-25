@@ -15,16 +15,18 @@ interface INavigationProps {
 const Navigation: FC<INavigationProps> = ({ setTheme }) => {
   const theme = useTheme();
   return (
-    <Box>
+    <Box sx={{ bgcolor: "element.main" }}>
       <AppBar
         position="static"
         sx={{
           p: "1rem 3rem",
-          bgcolor: "element.main",
           color: "text.primary",
+          bgcolor: "element.main",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          maxWidth: "1440px",
+          margin: "0 auto",
         }}
         elevation={0}
       >

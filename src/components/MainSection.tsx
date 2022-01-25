@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { useContext, useEffect, FC } from "react";
+import { useContext, useEffect } from "react";
 import { CountryContext } from "../context/CountryContext";
 import { ChangeEvent, useState } from "react";
 
@@ -27,7 +27,6 @@ const MainSection = () => {
     const result = await (
       await fetch("https://restcountries.com/v2/all")
     ).json();
-    console.log(result[0]);
     return result?.map((item: Country) => {
       const {
         name,
@@ -98,7 +97,7 @@ const MainSection = () => {
       <Box
         sx={{
           width: "100%",
-          height: "92.75vh",
+          height: "100vh",
           bgcolor: "background.default",
           display: "flex",
           justifyContent: "center",

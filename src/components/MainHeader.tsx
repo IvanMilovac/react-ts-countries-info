@@ -45,6 +45,8 @@ const MainHeader: FC<HeaderProps> = ({ handleChange, filterData }) => {
         gap: "1rem",
         width: "100%",
         paddingBlock: "1rem 2rem",
+        maxWidth: "1440px",
+        margin: "0 auto",
       }}
     >
       <TextField
@@ -61,7 +63,12 @@ const MainHeader: FC<HeaderProps> = ({ handleChange, filterData }) => {
         }}
         onChange={handleChange}
         value={filterData.country}
-        sx={{ width: "350px", maxWidth: "100%", bgcolor: "element.main" }}
+        sx={{
+          width: "350px",
+          maxWidth: "100%",
+          bgcolor: "element.main",
+          cursor: "pointer",
+        }}
       />
       <TextField
         id="region-select"
